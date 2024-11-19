@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  createdAt DateTime @default(now())
+  tags      Tag[]    @relation("PostTags")
+  images    Image[]  @relation("PostImages")
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  posts Post[] @relation("PostTags")
+}
+
+model Image {
+  id     Int    @id @default(autoincrement())
+  src    String
+  postId Int
+  post   Post   @relation("PostImages", fields: [postId], references: [id])
+}

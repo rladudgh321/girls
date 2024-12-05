@@ -22,19 +22,27 @@ export default function PostContent({ post }: PostContentProps) {
         ))}
       </div>
 
+      <section>
       {/* 게시글 이미지들 */}
       <div className="space-y-8">
-        {post.images.map((image: imagesObject) => (
-          <div key={image.id} className="bg-gray-200 rounded-lg shadow-md mb-6">
+        {post.images.map((image: imagesObject, i) => (
+          <div key={image.src + i} className="bg-gray-200 rounded-lg shadow-md mb-6">
             <img 
               referrerPolicy="no-referrer"
               className="w-full"
               src={image.src}
-              alt={`image${image.id}`}
+              alt={`image${image.src}`}
             />
           </div>
         ))}
       </div>
+
+      {/* 게시글 내용 */}
+      <p className="space-y-8">
+        {post.content}
+      </p>
+      </section>
+
     </div>
   );
 }

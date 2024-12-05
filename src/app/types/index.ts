@@ -1,6 +1,7 @@
 export interface DataProps {
   id: number;
   title: string;
+  content?: string;
 }
 
 export interface tagObject {

@@ -49,5 +49,16 @@ export async function generateStaticParams() {
   return result;
 }
 
+// export async function generateStaticParams() {
+//   // API 호출하여 게시글 목록 가져오기
+//   const posts = await getPostsAllAPI();
+//   const result = posts.posts.map((post: DataProps) => ({
+//     id: post.id.toString(), // 동적 경로에서 사용되는 파라미터
+//   }));
+
+//   // 각 게시글의 ID를 기반으로 동적 경로를 생성
+//   return result;
+// }
+
 
 export const revalidate = 60;

@@ -83,9 +83,13 @@ export async function updatePostAPI(data: UpdatePostAPIProps) {
   }
 }
 
-export async function deletePostAPI(id: number) {
+export async function deletePostAPI({id, token}: { id:number; token: string }) {
+  if(!token) return null;
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
   try {
-    const response = await axios.delete(`/post`, { params: id} );
+    const response = await axios.delete(`/post/${id}`, { headers} );
     return response.data;
   } catch (error) {
     console.error('getPostsAllAPI Error fetching data:', error);

@@ -35,14 +35,14 @@ const PostRow = ({
     mutationFn: deletePostAPI,
     onMutate: async (variables) => {
       // 낙관적 업데이트: 삭제를 먼저 처리하고 UI에 반영
-      await queryClient.cancelQueries({ queryKey: ['post'] });
-      const previousData = queryClient.getQueryData(['post']);
-      
+      await queryClient.cancelQueries({ queryKey: ['post', currentPage, postsPerPage, tag] });
+      const previousData = queryClient.getQueryData(['post', currentPage, postsPerPage, tag]);
+
       // 포스트 삭제 UI 반영
-      queryClient.setQueryData(['post'], (oldData: any) => {
+      queryClient.setQueryData(['post', currentPage, postsPerPage, tag], (oldData: any) => {
         return {
           ...oldData,
-          data: oldData?.data.filter((p: any) => p.id !== variables.id), // 해당 ID의 포스트를 제거
+          posts: oldData?.posts.filter((p: any) => p.id !== variables.id), // 해당 ID의 포스트를 제거
         };
       });
 
@@ -51,15 +51,15 @@ const PostRow = ({
     },
     onError: (error, variables, context) => {
       // 오류 발생 시 캐시 상태를 롤백
-      queryClient.setQueryData(['post'], context?.previousData);
+      queryClient.setQueryData(['post', currentPage, postsPerPage, tag], context?.previousData);
     },
     onSuccess: () => {
       // 삭제 후, 데이터 새로 고침
-      queryClient.invalidateQueries({ queryKey: ['post'] });
+      queryClient.invalidateQueries({ queryKey: ['post', currentPage, postsPerPage, tag] });
     },
     onSettled: () => {
       // 성공/실패 후 데이터 새로 고침
-      queryClient.invalidateQueries({ queryKey: ['post'] });
+      queryClient.invalidateQueries({ queryKey: ['post', currentPage, postsPerPage, tag] });
     },
   });
 

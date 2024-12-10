@@ -1,7 +1,4 @@
-"use client"
-import { useState } from "react";
-import { imagesObject, StringToArrayProps, tagObject } from "../types";
-import axios from "axios";
+import { StringToArrayProps, tagObject } from "../types";
 
 // 클라이언트 컴포넌트로 정의
 interface PostContentProps {
@@ -9,10 +6,6 @@ interface PostContentProps {
 }
 
 export default function PostContent({ post }: PostContentProps) {
-  console.log('post', post);
-  const [fileUrl, setFileUrl] = useState<string>('');
-  console.log('fileUrl', fileUrl);
-
   return (
     <div>
       {/* 게시글 제목 */}

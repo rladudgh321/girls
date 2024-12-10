@@ -8,7 +8,7 @@ import { createPostAPI, uploadImageAPI } from "../api/post";
 import { getTags } from "../api/tag";
 
 const CreatePost = () => {
-  const { control, handleSubmit, setValue, watch, formState: { errors } } = useForm({
+  const { control, handleSubmit, setValue, formState: { errors } } = useForm({
     defaultValues: {
       title: "",
       content: "",
@@ -38,10 +38,7 @@ const CreatePost = () => {
 
   const onSubmit = async (data: any) => {
     const token = localStorage.getItem("authorization")!;
-    console.log('Why', data);
-    console.log('images', Array.from(data.images));
     const uploadResult = await uploadImageAPI(data.images); 
-    console.log('uploadResult', uploadResult);
     const newPost = {
       title: data.title,
       content: data.content,
@@ -49,7 +46,6 @@ const CreatePost = () => {
       images: uploadResult.map((url: string) => ({ src: url })),
       token,
     };
-    console.log('newPost', newPost);
     mutationCreatePost.mutate(newPost);
   };
 
@@ -61,12 +57,9 @@ const CreatePost = () => {
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    console.log('handleImageUpload files', files);
     if (files) {
       const previewUrls = Array.from(files).map(file => URL.createObjectURL(file));
       setImagePreview(previewUrls);
-      console.log('previewUrls', previewUrls);
-      console.log('this is name is: ', files);
       setValue("images", Array.from(files));
     }
   };

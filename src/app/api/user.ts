@@ -19,9 +19,6 @@ export async function logInAPI(data: { email: string; password: string }) {
 }
 
 export async function logOutAPI() {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
   const response = await axios.post('/auth/logout');
   return response.data;
 }

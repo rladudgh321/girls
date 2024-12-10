@@ -1,11 +1,11 @@
 "use client"
 
 import { useForm, Controller } from "react-hook-form";
-import { StringToArrayProps } from "../types";
 import { useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createPostAPI, uploadImageAPI } from "../api/post";
 import { getTags } from "../api/tag";
+import { tagObject } from "../types";
 
 const CreatePost = () => {
   const { control, handleSubmit, setValue, formState: { errors } } = useForm({
@@ -28,9 +28,6 @@ const CreatePost = () => {
 
   const mutationCreatePost = useMutation({
     mutationFn: createPostAPI,
-    onSuccess: (data) => {
-      // 게시글 생성 성공 후 처리
-    },
     onError: (error) => {
       console.error("Error creating post:", error);
     }
@@ -140,7 +137,7 @@ const CreatePost = () => {
             <label className="block text-sm font-medium text-gray-700">태그</label>
             <div className="flex space-x-3">
               {
-             tags.map((v) => v.name).map((tag) => (
+             tags.map((v: tagObject) => v.name).map((tag: string) => (
                 <button
                   type="button"
                   key={tag}

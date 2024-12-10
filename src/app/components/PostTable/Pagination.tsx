@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 const Pagination = ({
   currentPage,
   totalPages,
-  postsPerPage,
   tag,
 }: {
   currentPage: number;

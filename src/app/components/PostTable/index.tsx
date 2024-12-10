@@ -34,7 +34,7 @@ export default function PostTable({
           const user = await getUserIdAPI(token as string);
           // 기존 상태와 비교해서 변경된 값만 설정
           setUser((prevState) => {
-            if (!prevState || prevState.id !== user.id || prevState.role !== user.role) {
+            if (!prevState || prevState.id !== user?.id || prevState.role !== user.role) {
               return user;
             }
             return prevState; // 값이 변경되지 않으면 상태 업데이트를 하지 않음

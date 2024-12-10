@@ -20,6 +20,7 @@ export default async function Post({ params, searchParams }: PostProps) {
 
   // 서버에서 데이터 직접 가져오기
   const data = await getPostAPI(Number(id));
+  console.log('data*************',data);
 
   // 데이터가 없으면 404 페이지로 리디렉션
   if (!data) {

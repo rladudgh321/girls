@@ -31,7 +31,6 @@ export async function getUserIdAPI(token: string) {
   const headers = {
     Authorization: `Bearer ${token}`,
   };
-  console.log('getUserIdAPIgetUserIdAPI', token);
   try {
     const response = await axios.get('/user/findOne', { headers });
     return response.data;

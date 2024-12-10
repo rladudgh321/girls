@@ -51,7 +51,9 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const post:generateMetadataPostType = await getPostAPI(Number(params.id));  // URL 파라미터 'id'를 기반으로 데이터를 가져옵니다.
-
+  const originUrl = process.env.NODE_ENV === 'production'
+    ? process.env.CLIENT_URL
+    : 'http://127.0.0.1:3000'
   
   return {
     title: post.title,
@@ -59,7 +61,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
     openGraph: {
       title: post.title,
       description: post.content,
-      url: `https://your-site.com/posts/${post.id}`,
+      url: `https://127.0.0.1:3000/posts/${post.id}`,
       images: post.images
     },
     twitter: {

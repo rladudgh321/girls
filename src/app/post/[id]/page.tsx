@@ -4,7 +4,7 @@ import { getPostAPI } from "../../api/post"; // API 함수 임포트
 import PostContent from "../../components/PostContent"; // 자식 컴포넌트 임포트
 import PostList from "../../components/PostList";
 import { getPostsAllAPI } from "../../api/post";
-import { StringToArrayProps } from "../../types";
+import { generateMetadataPostType, StringToArrayProps } from "../../types";
 
 export interface PostListProps {
   searchParams?: { postsPerPage?: string; page?: string; tag?: string; };
@@ -46,6 +46,29 @@ export async function generateStaticParams() {
 
   // 각 게시글의 ID를 기반으로 동적 경로를 생성
   return result;
+}
+
+
+export async function generateMetadata({ params }: { params: { id: string } }) {
+  const post:generateMetadataPostType = await getPostAPI(Number(params.id));  // URL 파라미터 'id'를 기반으로 데이터를 가져옵니다.
+
+  
+  return {
+    title: post.title,
+    description: post.content,
+    openGraph: {
+      title: post.title,
+      description: post.content,
+      url: `https://your-site.com/posts/${post.id}`,
+      images: post.images
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.content,
+      images: post.images,
+    },
+  };
 }
 
 export const revalidate = 60;

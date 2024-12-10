@@ -31,6 +31,7 @@ export default function RootLayout({
     <html lang="ko">
       <Head>
         <meta name="google-adsense-account" content="ca-pub-8907240576603717" />
+        <link rel="manifest.json" href="/manifest.json" />
       </Head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased select-none`}

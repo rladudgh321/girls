@@ -18,7 +18,7 @@ const CreatePost = () => {
   });
 
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [imagePreview, setImagePreview] = useState<string[]>([]);
+  const [imagePreview, setImagePreview] = useState<{src: string}[]>([]);
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
 
   const { data: tags, isLoading } = useQuery({
@@ -40,9 +40,10 @@ const CreatePost = () => {
       title: data.title,
       content: data.content,
       tags: selectedTags,
-      images: uploadResult.map((url: string) => ({ src: url })),
+      images: uploadResult ? uploadResult.map((url: string) => ({ src: url })) : [],
       token,
     };
+    console.log(newPost);
     mutationCreatePost.mutate(newPost);
   };
 
@@ -55,7 +56,7 @@ const CreatePost = () => {
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
-      const previewUrls = Array.from(files).map(file => URL.createObjectURL(file));
+      const previewUrls = Array.from(files).map(file => ({src: URL.createObjectURL(file)}));
       setImagePreview(previewUrls);
       setValue("images", Array.from(files));
     }

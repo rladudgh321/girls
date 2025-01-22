@@ -1,7 +1,7 @@
 // /components/PostList.tsx
 "use client";
 
-import { useQuery } from "@tanstack/react-query"; // useQuery 임포트
+import { useQuery } from '@tanstack/react-query';
 import PostTable from './PostTable'; // 게시글 테이블 컴포넌트
 import { getPostsAPI } from '../api/post';
 

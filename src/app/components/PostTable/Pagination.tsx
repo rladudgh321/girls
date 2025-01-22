@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const Pagination = ({
   currentPage,
@@ -13,6 +14,30 @@ const Pagination = ({
   tag: string;
 }) => {
   const router = useRouter();
+  
+  // 화면 크기에 따라 페이지 번호 범위를 조정하기 위한 상태
+  const [pageLimit, setPageLimit] = useState(10);
+
+  useEffect(() => {
+    const updatePageLimit = () => {
+      const width = window.innerWidth;
+
+      if (width >= 1024) {
+        setPageLimit(10); // 화면이 1024px 이상일 경우 페이지 번호 10개씩 표시
+      } else if (width >= 768) {
+        setPageLimit(5);  // 화면이 768px 이상 1024px 미만일 경우 페이지 번호 5개씩 표시
+      } else {
+        setPageLimit(3);  // 화면이 768px 미만일 경우 페이지 번호 3개씩 표시
+      }
+    };
+
+    // 처음 화면이 로드되었을 때 및 화면 크기 변경 시에 페이지 번호 범위 계산
+    updatePageLimit();
+    window.addEventListener("resize", updatePageLimit);
+    return () => {
+      window.removeEventListener("resize", updatePageLimit);
+    };
+  }, []);
 
   const handlePageChange = (page: number) => {
     router.push(
@@ -21,9 +46,9 @@ const Pagination = ({
     );
   };
 
-  const getPaginationRange = (currentPage: number, totalPages: number) => {
-    const startPage = Math.floor((currentPage - 1) / 10) * 10 + 1;
-    const endPage = Math.min(startPage + 9, totalPages);
+  const getPaginationRange = (currentPage: number, totalPages: number, limit: number) => {
+    const startPage = Math.max(1, Math.floor((currentPage - 1) / limit) * limit + 1);
+    const endPage = Math.min(startPage + limit - 1, totalPages);
     const range = [];
     for (let i = startPage; i <= endPage; i++) {
       range.push(i);
@@ -31,7 +56,7 @@ const Pagination = ({
     return range;
   };
 
-  const paginationRange = getPaginationRange(currentPage, totalPages);
+  const paginationRange = getPaginationRange(currentPage, totalPages, pageLimit);
 
   return (
     <div className="flex justify-center mt-6">

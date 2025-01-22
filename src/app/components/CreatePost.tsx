@@ -6,8 +6,9 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { createPostAPI, uploadImageAPI } from "../api/post";
 import { getTags } from "../api/tag";
 import { tagObject } from "../types";
-
+import { useRouter } from "next/navigation";
 const CreatePost = () => {
+  const router = useRouter();
   const { control, handleSubmit, setValue, formState: { errors } } = useForm({
     defaultValues: {
       title: "",
@@ -28,6 +29,9 @@ const CreatePost = () => {
 
   const mutationCreatePost = useMutation({
     mutationFn: createPostAPI,
+    onSuccess: () => {
+      return router.replace('/');
+    },
     onError: (error) => {
       console.error("Error creating post:", error);
     }
@@ -36,6 +40,7 @@ const CreatePost = () => {
   const onSubmit = async (data: any) => {
     const token = localStorage.getItem("authorization")!;
     const uploadResult = await uploadImageAPI(data.images); 
+    console.log('uploadResult', uploadResult);
     const newPost = {
       title: data.title,
       content: data.content,
@@ -43,7 +48,7 @@ const CreatePost = () => {
       images: uploadResult ? uploadResult.map((url: string) => ({ src: url })) : [],
       token,
     };
-    console.log(newPost);
+    console.log('newPost', newPost);
     mutationCreatePost.mutate(newPost);
   };
 

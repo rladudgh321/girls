@@ -20,7 +20,7 @@ export default function PostTable({
   tag: string;
 }) {
   const router = useRouter();
-  const [isUser, setUser] = useState<{ id: string; role: string }>({id: '', role:''});
+  const [isUser, setUser] = useState<{ id: string; role: 'ADMIN' | 'USER' }>({id: '', role:'USER'});
 
   const handleTagClick = (tag: string) => {
     router.push(`?tag=${tag}&page=1`, { scroll: false });
@@ -47,7 +47,7 @@ export default function PostTable({
 
     fetchData();
   }, []); // 의존성 배열에 빈 배열을 사용하여 한 번만 실행되도록
-
+  console.log('isUser', isUser);
   return (
     <div>
       <table className="w-full border-collapse table-auto">

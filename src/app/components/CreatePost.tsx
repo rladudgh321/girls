@@ -172,7 +172,7 @@ const CreatePost = () => {
             />
             <div className="mt-4">
               {imagePreview.map((src, index) => (
-                <img key={index} src={src} alt={`preview-${index}`} className="w-32 h-32 object-cover rounded-md" />
+                <img key={index} src={src.src} alt={`preview-${index}`} className="w-32 h-32 object-cover rounded-md" />
               ))}
             </div>
           </div>

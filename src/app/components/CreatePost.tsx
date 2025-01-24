@@ -12,14 +12,20 @@ const CreatePost = () => {
   const { control, handleSubmit, setValue, formState: { errors } } = useForm({
     defaultValues: {
       title: "",
-      content: "",
+      content1: "",
+      content2: "",
+      content3: "",
       tags: [],
-      images: [] as File[],
+      images1: [] as File[],
+      images2: [] as File[],
+      images3: [] as File[],
     }
   });
 
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [imagePreview, setImagePreview] = useState<{src: string}[]>([]);
+  const [imagePreview1, setImagePreview1] = useState<{src: string}[]>([]);
+  const [imagePreview2, setImagePreview2] = useState<{src: string}[]>([]);
+  const [imagePreview3, setImagePreview3] = useState<{src: string}[]>([]);
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
 
   const { data: tags, isLoading } = useQuery({
@@ -37,20 +43,7 @@ const CreatePost = () => {
     }
   });
 
-  const onSubmit = async (data: any) => {
-    const token = localStorage.getItem("authorization")!;
-    const uploadResult = await uploadImageAPI(data.images); 
-    console.log('uploadResult', uploadResult);
-    const newPost = {
-      title: data.title,
-      content: data.content,
-      tags: selectedTags,
-      images: uploadResult ? uploadResult.map((url: string) => ({ src: url })) : [],
-      token,
-    };
-    console.log('newPost', newPost);
-    mutationCreatePost.mutate(newPost);
-  };
+  
 
   const handleTagSelect = (tag: string) => {
     setSelectedTags(prevTags =>
@@ -58,13 +51,60 @@ const CreatePost = () => {
     );
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload1 = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
       const previewUrls = Array.from(files).map(file => ({src: URL.createObjectURL(file)}));
-      setImagePreview(previewUrls);
-      setValue("images", Array.from(files));
+      setImagePreview1(previewUrls);
+      setValue("images1", Array.from(files));
     }
+  };
+
+  const handleImageUpload2 = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      const previewUrls = Array.from(files).map(file => ({src: URL.createObjectURL(file)}));
+      setImagePreview2(previewUrls);
+      setValue("images2", Array.from(files));
+    }
+  };
+
+  const handleImageUpload3 = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      const previewUrls = Array.from(files).map(file => ({src: URL.createObjectURL(file)}));
+      setImagePreview3(previewUrls);
+      setValue("images3", Array.from(files));
+    }
+  };
+
+  const onSubmit = async (data: any) => {
+    const token = localStorage.getItem("authorization")!;
+    console.log('datadata', data);
+     // 각 필드를 별도로 업로드
+     try {
+       const [uploadResult1, uploadResult2, uploadResult3] = 
+         await Promise.all([uploadImageAPI(data.images1), uploadImageAPI(data.images2), uploadImageAPI(data.images3)])
+     
+       console.log('uploadResult1', uploadResult1);
+       console.log('uploadResult2', uploadResult2);
+       console.log('uploadResult3', uploadResult3);
+         const newPost = {
+           title: data.title,
+           content1: data.content1,
+           content2: data.content2,
+           content3: data.content3,
+           tags: selectedTags,
+           images1: uploadResult1 ? uploadResult1.map((url: string) => ({ src: url })) : [],
+           images2: uploadResult2 ? uploadResult2.map((url: string) => ({ src: url })) : [],
+           images3: uploadResult3 ? uploadResult3.map((url: string) => ({ src: url })) : [],
+           token,
+         };
+         console.log('newPost', newPost);
+         mutationCreatePost.mutate(newPost);
+     } catch (err) {
+      console.error('uploadsubmit', err);
+     }
   };
 
   if(isLoading) return <div>isLoading....</div>
@@ -96,7 +136,7 @@ const CreatePost = () => {
 
       {/* 아코디언 내용 */}
       {isAccordionOpen && (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 mt-6">
+        <form encType="multipart/form-data" onSubmit={handleSubmit(onSubmit)} className="space-y-8 mt-6">
           {/* 제목 입력 */}
           <div>
             <label htmlFor="title" className="block text-sm font-medium text-gray-700">
@@ -123,19 +163,122 @@ const CreatePost = () => {
               내용
             </label>
             <Controller
-              name="content"
+              name="content1"
               control={control}
               render={({ field }) => (
                 <textarea
                   {...field}
-                  id="content"
+                  id="content1"
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md"
                   placeholder="내용을 입력하세요"
                   rows={6}
                 />
               )}
             />
-            {errors.content && <span className="text-red-500 text-sm">내용은 필수입니다.</span>}
+          </div>
+
+          {/* 이미지 업로드 */}
+          <div>
+            <label htmlFor="images" className="block text-sm font-medium text-gray-700">
+              이미지 업로드
+            </label>
+            <input
+              type="file"
+              id="image1"
+              name="image1"
+              multiple
+              accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
+              onChange={handleImageUpload1}
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+            />
+            <div className="mt-4">
+              {imagePreview1.map((src, index) => (
+                <img key={index} src={src.src} alt={`preview-${index}`} className="w-32 h-32 object-cover rounded-md" />
+              ))}
+            </div>
+          </div>
+          
+          {/* 내용 입력 */}
+          <div>
+            <label htmlFor="content2" className="block text-sm font-medium text-gray-700">
+              내용
+            </label>
+            <Controller
+              name="content2"
+              control={control}
+              render={({ field }) => (
+                <textarea
+                  {...field}
+                  id="content2"
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  placeholder="두번째입니다"
+                  rows={6}
+                />
+              )}
+            />
+          </div>
+
+          {/* 이미지 업로드 */}
+          <div>
+            <label htmlFor="images" className="block text-sm font-medium text-gray-700">
+              이미지 업로드
+            </label>
+            <input
+              type="file"
+              id="image2"
+              name="image2"
+              multiple
+              accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
+              onChange={handleImageUpload2}
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+            />
+            <div className="mt-4">
+              {imagePreview2.map((src, index) => (
+                <img key={index} src={src.src} alt={`preview-${index}`} className="w-32 h-32 object-cover rounded-md" />
+              ))}
+            </div>
+          </div>
+
+          {/* 내용 입력 */}
+          <div>
+            <label htmlFor="content3" className="block text-sm font-medium text-gray-700">
+              내용
+            </label>
+            <Controller
+              name="content3"
+              control={control}
+              render={({ field }) => (
+                <textarea
+                  {...field}
+                  id="content3"
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  placeholder="내용을 입력하세요"
+                  rows={6}
+                />
+              )}
+            />
+            {errors.content1 && <span className="text-red-500 text-sm">내용은 필수입니다.</span>}
+          </div>
+
+          {/* 이미지 업로드 */}
+          <div>
+            <label htmlFor="images" className="block text-sm font-medium text-gray-700">
+              이미지 업로드
+            </label>
+            <input
+              type="file"
+              id="image3"
+              name="image3"
+              multiple
+              accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
+              onChange={handleImageUpload3}
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+            />
+            <div className="mt-4">
+              {imagePreview3.map((src, index) => (
+                <img key={index} src={src.src} alt={`preview-${index}`} className="w-32 h-32 object-cover rounded-md" />
+              ))}
+            </div>
           </div>
 
           {/* 태그 선택 */}
@@ -155,26 +298,6 @@ const CreatePost = () => {
               ))}
             </div>
             {selectedTags.length === 0 && <span className="text-red-500 text-sm">적어도 하나의 태그를 선택하세요.</span>}
-          </div>
-
-          {/* 이미지 업로드 */}
-          <div>
-            <label htmlFor="images" className="block text-sm font-medium text-gray-700">
-              이미지 업로드
-            </label>
-            <input
-              type="file"
-              id="images"
-              multiple
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-            />
-            <div className="mt-4">
-              {imagePreview.map((src, index) => (
-                <img key={index} src={src.src} alt={`preview-${index}`} className="w-32 h-32 object-cover rounded-md" />
-              ))}
-            </div>
           </div>
 
           {/* 제출 버튼 */}

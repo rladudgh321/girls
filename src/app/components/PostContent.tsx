@@ -6,6 +6,7 @@ interface PostContentProps {
 }
 
 export default function PostContent({ post }: PostContentProps) {
+  console.log('PostContent', post);
   return (
     <div>
       {/* 게시글 제목 */}
@@ -25,7 +26,7 @@ export default function PostContent({ post }: PostContentProps) {
       <section>
         {/* 게시글 이미지들 */}
         <div className="space-y-8">
-          {post.images.map((image, i) => {
+          {post.images1.map((image, i) => {
             const imageUrl = process.env.NODE_ENV === 'production'
             ? process.env.SERVER_UPLOAD_URL
             : `http://127.0.0.1:3065/uploads/${image}` // 이미지 URL을 변환
@@ -35,7 +36,7 @@ export default function PostContent({ post }: PostContentProps) {
                   referrerPolicy="no-referrer"
                   className="w-full"
                   src={imageUrl}  // 변환된 이미지 URL
-                  alt={`image${i}`}
+                  alt={`${image}${i}`}
                 />
               </div>
             );
@@ -43,8 +44,57 @@ export default function PostContent({ post }: PostContentProps) {
         </div>
 
         {/* 게시글 내용 */}
-        <p className="space-y-8">
-          {post.content}
+        {post?.content1 && <p className="space-y-8 my-4">
+          {post?.content1}
+        </p>}
+
+
+        {/* 게시글 이미지들 */}
+        <div className="space-y-8">
+          {post.images2.map((image, i) => {
+            const imageUrl = process.env.NODE_ENV === 'production'
+            ? process.env.SERVER_UPLOAD_URL
+            : `http://127.0.0.1:3065/uploads/${image}` // 이미지 URL을 변환
+            return (
+              <div key={i} className="bg-gray-200 rounded-lg shadow-md mb-6">
+                <img
+                  referrerPolicy="no-referrer"
+                  className="w-full"
+                  src={imageUrl}  // 변환된 이미지 URL
+                  alt={`${image}${i}`}
+                />
+              </div>
+            );
+          })}
+        </div>
+
+        {/* 게시글 내용 */}
+        {post?.content2 && <p className="space-y-8 my-4">
+          {post?.content2}
+        </p>}
+
+        {/* 게시글 이미지들 */}
+        <div className="space-y-8">
+          {post.images3.map((image, i) => {
+            const imageUrl = process.env.NODE_ENV === 'production'
+            ? process.env.SERVER_UPLOAD_URL
+            : `http://127.0.0.1:3065/uploads/${image}` // 이미지 URL을 변환
+            return (
+              <div key={i} className="bg-gray-200 rounded-lg shadow-md mb-6">
+                <img
+                  referrerPolicy="no-referrer"
+                  className="w-full"
+                  src={imageUrl}  // 변환된 이미지 URL
+                  alt={`${image}${i}`}
+                />
+              </div>
+            );
+          })}
+        </div>
+
+        {/* 게시글 내용 */}
+        <p className="space-y-8 my-4">
+          {post.content3}
         </p>
       </section>
     </div>

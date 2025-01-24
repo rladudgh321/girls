@@ -4,7 +4,7 @@ const TagButton = ({
   tag,
   handleTagClick,
 }: {
-  tag: { id: number; name: string };
+  tag: { id: string; name: string };
   handleTagClick: (tag: string) => void;
 }) => {
   return (

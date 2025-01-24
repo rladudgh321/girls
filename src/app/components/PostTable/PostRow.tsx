@@ -63,7 +63,7 @@ const PostRow = ({
     },
   });
 
-  const onDeletePost = useCallback((postId: number) => {
+  const onDeletePost = useCallback((postId: string) => {
     if (window.confirm("정말로 이 게시물을 삭제하시겠습니까?")) {
       const token = localStorage.getItem('authorization');
       if (!token) {
@@ -76,7 +76,7 @@ const PostRow = ({
 
   const { role } = isUser || {}; // isUser에서 role을 구조 분해
   const isAdmin = role === 'ADMIN'; // 'ADMIN' 역할 확인
-
+  console.log('postssssss', post);
   return (
     <tr key={post.id} className="border-b hover:bg-gray-50">
       <td className="py-2 px-4">
@@ -84,7 +84,7 @@ const PostRow = ({
       </td>
       <td className="py-2 px-4">
         <Link
-          href={`/post/${Number(post.id)}?page=${currentPage}${tag ? `&tag=${tag}` : ""}`}
+          href={`/post/${post.id}?page=${currentPage}${tag ? `&tag=${tag}` : ""}`}
           className="text-blue-600 hover:text-blue-800"
         >
           {post.title}

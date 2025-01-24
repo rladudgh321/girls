@@ -11,9 +11,13 @@ axios.defaults.httpsAgent = new https.Agent({
 
 interface DataAPIProps {
   title: string;
-  content: string;
+  content1: string;
+  content2: string;
+  content3: string;
   tags: string[];
-  images: {src:string}[];
+  images1: {src:string}[];
+  images2: {src:string}[];
+  images3: {src:string}[];
 }
 
 interface GetPostsProps {
@@ -34,7 +38,7 @@ export async function getPostsAPI(data: GetPostsProps) {
 }
 
 
-export async function getPostAPI(id: number) {
+export async function getPostAPI(id: string) {
   try {
     const response = await axios.get(`/post/${id}`);
     return response.data;
@@ -89,7 +93,7 @@ export async function updatePostAPI(data: UpdatePostAPIProps) {
   }
 }
 
-export async function deletePostAPI({id, token}: { id:number; token: string }) {
+export async function deletePostAPI({id, token}: { id:string; token: string }) {
   if(!token) return null;
   const headers = {
     Authorization: `Bearer ${token}`,
@@ -104,23 +108,31 @@ export async function deletePostAPI({id, token}: { id:number; token: string }) {
 }
 
 export async function uploadImageAPI(files: File[]) {
-  // FormData 객체 생성
-  const formData = new FormData();
-
-  // 여러 파일을 FormData에 추가
-  files.forEach(file => {
-    formData.append("files", file); // 'files'는 서버에서 기대하는 필드 이름
-  });
-
+  
   try {
+    const formData = new FormData();
+  
+    console.log('beforefiles', files);
+  
+    // 각 파일을 FormData에 추가
+    files.forEach((file, i) => {
+      const fieldName = `image${i + 1}`;
+      console.log('fieldName', fieldName, 'file', file);
+      formData.append(fieldName, file);
+    });
+
+    console.log('formData', formData);
+    console.log('afterfiles', files);
+
     const response = await axios.post('/post/upload', formData, {
       headers: {
-        'Content-Type': 'multipart/form-data', // 파일을 전송할 때의 Content-Type
+        'Content-Type': 'multipart/form-data',  // 파일을 전송할 때의 Content-Type
       },
     });
     return response.data;  // 서버에서 반환된 데이터 처리
   } catch (err) {
     console.error('Error uploading images:', err);
+    return null;  // 오류가 발생하면 null 반환
   }
 }
 

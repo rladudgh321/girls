@@ -19,7 +19,8 @@ export default async function Post({ params, searchParams }: PostProps) {
   const { id } = params;
 
   // 서버에서 데이터 직접 가져오기
-  const data = await getPostAPI(Number(id));
+  const data = await getPostAPI(id);
+  console.log('PostComponent', data);
   // 데이터가 없으면 404 페이지로 리디렉션
   if (!data) {
     notFound();
@@ -50,29 +51,34 @@ export async function generateStaticParams() {
 
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
-  const post:generateMetadataPostType = await getPostAPI(Number(params.id));  // URL 파라미터 'id'를 기반으로 데이터를 가져옵니다.
-  console.log('postpostpostpost', post);
-  console.log('imagesimages', ...post.images);
-  const originUrl = process.env.NODE_ENV === 'production'
-    ? process.env.CLIENT_URL
-    : 'http://127.0.0.1:3000'
-  
-  return {
-    title: post.title,
-    description: post.content,
-    openGraph: {
+  try {
+    const post:generateMetadataPostType = await getPostAPI(Number(params.id));  // URL 파라미터 'id'를 기반으로 데이터를 가져옵니다.
+    console.log('postpostpostpost', post);
+    console.log('imagesimages', post.images);
+    const originUrl = process.env.NODE_ENV === 'production'
+      ? process.env.CLIENT_URL
+      : 'http://127.0.0.1:3000'
+    
+    return {
       title: post.title,
-      description: post.content,
-      url: `https://127.0.0.1:3000/post/${post.id}`,
-      images: post.images
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: post.title,
-      description: post.content,
-      images: post.images,
-    },
-  };
+      description: post.content3,
+      openGraph: {
+        title: post.title,
+        description: post.content3,
+        url: `https://127.0.0.1:3000/post/${post.id}`,
+        images: post.images[0].src
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: post.title,
+        description: post.content3,
+        images: post.images[0].src,
+      },
+    };
+  } catch (err){
+    console.error(err);
+    return {};
+  }
 }
 
 export const revalidate = 60;

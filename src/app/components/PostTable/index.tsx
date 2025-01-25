@@ -47,7 +47,6 @@ export default function PostTable({
 
     fetchData();
   }, []); // 의존성 배열에 빈 배열을 사용하여 한 번만 실행되도록
-  console.log('isUser', isUser);
   return (
     <div>
       <table className="w-full border-collapse table-auto">

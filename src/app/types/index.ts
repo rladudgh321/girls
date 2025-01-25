@@ -27,7 +27,3 @@ export interface StringToArrayProps extends DataProps {
 export interface StringToArrayPropsWithoutImages extends DataProps {
   tags: tagObject[];
 }
-
-export interface generateMetadataPostType extends Omit<StringToArrayProps, 'images1' | 'images2' | 'images3'> {
-  images: imagesObject[]
-}

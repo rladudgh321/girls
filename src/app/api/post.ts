@@ -112,17 +112,11 @@ export async function uploadImageAPI(files: File[]) {
   try {
     const formData = new FormData();
   
-    console.log('beforefiles', files);
-  
     // 각 파일을 FormData에 추가
     files.forEach((file, i) => {
       const fieldName = `image${i + 1}`;
-      console.log('fieldName', fieldName, 'file', file);
       formData.append(fieldName, file);
     });
-
-    console.log('formData', formData);
-    console.log('afterfiles', files);
 
     const response = await axios.post('/post/upload', formData, {
       headers: {

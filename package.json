@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development next dev",
-    "build": "cross-env NODE_ENV=production yarn prisma &&cross-env NODE_ENV=production next build",
+    "build": "cross-env NODE_ENV=production next build",
     "start": "next start",
     "prisma": "yarn pnpify prisma generate",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",

@@ -15,4 +15,5 @@ export default async function Home({
 }
 
 // ISR 설정: 5분마다 새로 고침
-export const revalidate = 60; // 5분마다 갱신
+export const revalidate = 60;
+export const dynamic = 'force-static'

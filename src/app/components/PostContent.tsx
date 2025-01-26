@@ -28,7 +28,7 @@ export default function PostContent({ post }: PostContentProps) {
         <div className="space-y-8">
           {post.images1.map((image, i) => {
             const imageUrl = process.env.NODE_ENV === 'production'
-            ? process.env.SERVER_UPLOAD_URL
+            ? `${process.env.SERVER_UPLOAD_URL}/${image}`
             : `http://127.0.0.1:3065/uploads/${image}` // 이미지 URL을 변환
             return (
               <div key={i} className="bg-gray-200 rounded-lg shadow-md mb-6">
@@ -53,7 +53,7 @@ export default function PostContent({ post }: PostContentProps) {
         <div className="space-y-8">
           {post.images2.map((image, i) => {
             const imageUrl = process.env.NODE_ENV === 'production'
-            ? process.env.SERVER_UPLOAD_URL
+            ? `${process.env.SERVER_UPLOAD_URL}/${image}`
             : `http://127.0.0.1:3065/uploads/${image}` // 이미지 URL을 변환
             return (
               <div key={i} className="bg-gray-200 rounded-lg shadow-md mb-6">
@@ -77,7 +77,7 @@ export default function PostContent({ post }: PostContentProps) {
         <div className="space-y-8">
           {post.images3.map((image, i) => {
             const imageUrl = process.env.NODE_ENV === 'production'
-            ? process.env.SERVER_UPLOAD_URL
+            ? `${process.env.SERVER_UPLOAD_URL}/${image}`
             : `http://127.0.0.1:3065/uploads/${image}` // 이미지 URL을 변환
             return (
               <div key={i} className="bg-gray-200 rounded-lg shadow-md mb-6">

@@ -6,6 +6,7 @@ import PostList from "../../components/PostList";
 import { getPostsAllAPI } from "../../api/post";
 import { generateMetadataPostType, StringToArrayProps } from "../../types";
 
+
 export interface PostListProps {
   searchParams?: { postsPerPage?: string; page?: string; tag?: string; };
 }
@@ -51,18 +52,10 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   try {
-<<<<<<< HEAD
     const post:generateMetadataPostType = await getPostAPI(params.id);  // URL 파라미터 'id'를 기반으로 데이터를 가져옵니다.
     // const originUrl = process.env.NODE_ENV === 'production'
     //   ? process.env.CLIENT_URL
     //   : 'http://127.0.0.1:3000'
-=======
-    const post:StringToArrayProps = await getPostAPI(params.id);  // URL 파라미터 'id'를 기반으로 데이터를 가져옵니다.
-    console.log('generateMetadatapost', post);
-    const originUrl = process.env.NODE_ENV === 'production'
-      ? process.env.CLIENT_URL
-      : 'http://127.0.0.1:3000'
->>>>>>> origin/main
     
     return {
       title: post.title,
@@ -71,21 +64,14 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
         title: post.title,
         description: post.content3,
         url: `https://127.0.0.1:3000/post/${post.id}`,
-<<<<<<< HEAD
         images: post.images3[0].src || [],
-=======
-        images: post.images3[0]?.src
->>>>>>> origin/main
+
       },
       twitter: {
         card: 'summary_large_image',
         title: post.title,
         description: post.content3,
-<<<<<<< HEAD
         images: post.images3[0].src || [],
-=======
-        images: post.images3[0]?.src,
->>>>>>> origin/main
       },
     };
   } catch (err){
@@ -94,4 +80,3 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   }
 }
 
-export const revalidate = 60;

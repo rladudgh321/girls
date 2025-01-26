@@ -80,15 +80,11 @@ const CreatePost = () => {
 
   const onSubmit = async (data: any) => {
     const token = localStorage.getItem("authorization")!;
-    console.log('datadata', data);
      // 각 필드를 별도로 업로드
      try {
        const [uploadResult1, uploadResult2, uploadResult3] = 
          await Promise.all([uploadImageAPI(data.images1), uploadImageAPI(data.images2), uploadImageAPI(data.images3)])
      
-       console.log('uploadResult1', uploadResult1);
-       console.log('uploadResult2', uploadResult2);
-       console.log('uploadResult3', uploadResult3);
          const newPost = {
            title: data.title,
            content1: data.content1,
@@ -100,7 +96,6 @@ const CreatePost = () => {
            images3: uploadResult3 ? uploadResult3.map((url: string) => ({ src: url })) : [],
            token,
          };
-         console.log('newPost', newPost);
          mutationCreatePost.mutate(newPost);
      } catch (err) {
       console.error('uploadsubmit', err);

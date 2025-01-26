@@ -14,7 +14,6 @@ export default function PostList({ searchParams }: PostListProps) {
   const postsPerPage = searchParams?.postsPerPage ? parseInt(searchParams.postsPerPage) : 10; // 기본값 10
   const tag = searchParams?.tag || ''; // 태그 파라미터 처리
 
-  // useQuery를 사용하여 게시물 데이터와 총 게시물 수를 가져옵니다.
   const { data, error, isLoading } = useQuery(
     {queryKey: ['post', currentPage, postsPerPage, tag],
     queryFn: () => getPostsAPI({ page: currentPage, postsPerPage, tag })
@@ -34,7 +33,7 @@ export default function PostList({ searchParams }: PostListProps) {
         postsPerPage={postsPerPage}
         currentPage={currentPage}
         totalPages={totalPages}
-        tag={tag} // 태그도 전달
+        tag={tag}
       />
     </div>
   );

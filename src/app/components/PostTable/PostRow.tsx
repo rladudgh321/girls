@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { StringToArrayPropsWithoutImages } from "../../types";
 import TagButton from "./TagButton";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { deletePostAPI } from "../../api/post";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { clsx } from 'clsx';
 
 interface User {
   id: string;
@@ -30,7 +31,7 @@ const PostRow = ({
   isUser: User | null; // isUser가 null일 수 있음
 }) => {
   const queryClient = useQueryClient();
-
+  const onRef = useRef<HTMLAnchorElement>(null);
   const mutationDeletePost = useMutation({
     mutationFn: deletePostAPI,
     onMutate: async (variables) => {
@@ -76,7 +77,11 @@ const PostRow = ({
 
   const { role } = isUser || {}; // isUser에서 role을 구조 분해
   const isAdmin = role === 'ADMIN'; // 'ADMIN' 역할 확인
-  console.log('postssssss', post);
+
+  const handleLink = () => {
+    onRef.current?.classList.remove('text-blue-600')
+    onRef.current?.classList.add('text-red-500');
+  }
   return (
     <tr key={post.id} className="border-b hover:bg-gray-50">
       <td className="py-2 px-4">
@@ -85,7 +90,9 @@ const PostRow = ({
       <td className="py-2 px-4">
         <Link
           href={`/post/${post.id}?page=${currentPage}${tag ? `&tag=${tag}` : ""}`}
-          className="text-blue-600 hover:text-blue-800"
+          ref={onRef}
+          className={clsx(['text-blue-600 hover:text-blue-800 visited:text-purple-600'])}
+          onClick={handleLink}
         >
           {post.title}
         </Link>
@@ -100,7 +107,7 @@ const PostRow = ({
           <button
             onClick={() => onDeletePost(post.id)}
             disabled={mutationDeletePost.isPending}
-            className={`px-4 py-2 ${mutationDeletePost.isPending ? 'bg-gray-300' : 'bg-red-600 text-white'} rounded`}
+            className={clsx([`px-4 py-2 ${mutationDeletePost.isPending ? 'bg-gray-300' : 'bg-red-600 text-white'} rounded`])}
           >
             {mutationDeletePost.isPending ? '삭제 중...' : '삭제'}
           </button>

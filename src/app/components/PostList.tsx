@@ -13,9 +13,6 @@ const PostList = () => {
   
   const searchParams = new URLSearchParams(url);
 
-  console.log('Home > PostList, useQuery: getPostsAPI');
-  console.log('searchParams', searchParams);
-
   // URLSearchParams에서 값 추출
   const currentPage = useMemo(() => {
     const page = searchParams.get('page');

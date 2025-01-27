@@ -38,7 +38,7 @@ CREATE TABLE images (
 import { PrismaClient } from '@prisma';
 
 let prisma: PrismaClient;
-console.log('prisma', prisma);
+<!-- console.log('prisma', prisma); -->
 
 // 개발 환경에서의 재연결을 위한 설정
 if (process.env.NODE_ENV === 'development') {

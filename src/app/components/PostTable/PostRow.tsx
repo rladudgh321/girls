@@ -30,7 +30,6 @@ const PostRow = ({
   handleTagClick: (tag: string) => void;
   isUser: User | null; // isUser가 null일 수 있음
 }) => {
-  console.log('Home > PostList > PostTabl > PostRow')
   const queryClient = useQueryClient();
   const onRef = useRef<HTMLAnchorElement>(null);
   const mutationDeletePost = useMutation({

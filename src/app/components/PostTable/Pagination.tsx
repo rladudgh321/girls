@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 const Pagination = ({
   currentPage,
   totalPages,
+  postsPerPage,
   tag,
 }: {
   currentPage: number;
@@ -13,11 +14,8 @@ const Pagination = ({
   postsPerPage: number;
   tag: string;
 }) => {
-  console.log('Home > PostList > PostTabl > Pagination, useRouter useState useEffect')
-
   const router = useRouter();
-  
-  // 화면 크기에 따라 페이지 번호 범위를 조정하기 위한 상태
+
   const [pageLimit, setPageLimit] = useState(10);
 
   useEffect(() => {
@@ -25,15 +23,14 @@ const Pagination = ({
       const width = window.innerWidth;
 
       if (width >= 1024) {
-        setPageLimit(10); // 화면이 1024px 이상일 경우 페이지 번호 10개씩 표시
+        setPageLimit(10);
       } else if (width >= 768) {
-        setPageLimit(5);  // 화면이 768px 이상 1024px 미만일 경우 페이지 번호 5개씩 표시
+        setPageLimit(5);
       } else {
-        setPageLimit(3);  // 화면이 768px 미만일 경우 페이지 번호 3개씩 표시
+        setPageLimit(3);
       }
     };
 
-    // 처음 화면이 로드되었을 때 및 화면 크기 변경 시에 페이지 번호 범위 계산
     updatePageLimit();
     window.addEventListener("resize", updatePageLimit);
     return () => {
@@ -42,10 +39,9 @@ const Pagination = ({
   }, []);
 
   const handlePageChange = (page: number) => {
-    router.push(
-      `?page=${page}${tag ? `&tag=${tag}` : ""}`,
-      { scroll: false }
-    );
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set('page', page.toString());
+    router.push(`?${searchParams.toString()}`, { scroll: false });
   };
 
   const getPaginationRange = (currentPage: number, totalPages: number, limit: number) => {

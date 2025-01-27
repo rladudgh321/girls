@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getUserIdAPI } from "../../api/user";
 import PostRow from "./PostRow";
@@ -19,12 +19,14 @@ const PostTable = ({
   totalPages: number;
   tag: string;
 }) => {
-  console.log('Home > PostList > PostTabl, useRouter useState useEffect')
   const router = useRouter();
-  const [isUser, setUser] = useState<{ id: string; role: 'ADMIN' | 'USER' }>({id: '', role:'USER'});
+  const [isUser, setUser] = useState<{ id: string; role: 'ADMIN' | 'USER' }>({ id: '', role: 'USER' });
 
   const handleTagClick = useCallback((tag: string) => {
-    router.push(`?tag=${tag}&page=1`, { scroll: false });
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set('tag', tag);
+    searchParams.set('page', '1');
+    router.push(`?${searchParams.toString()}`, { scroll: false });
   }, [router]);
 
   useEffect(() => {
@@ -33,20 +35,15 @@ const PostTable = ({
       if (token) {
         try {
           const user = await getUserIdAPI(token as string);
-          // 기존 상태와 비교해서 변경된 값만 설정
-          setUser((prevState) => {
-            if (!prevState || prevState.id !== user?.id || prevState.role !== user.role) {
-              return user;
-            }
-            return prevState; // 값이 변경되지 않으면 상태 업데이트를 하지 않음
-          });
+          setUser(user);
         } catch (error) {
           console.error('Error fetching user:', error);
         }
       }
     };
     fetchData();
-  }, []); // 의존성 배열에 빈 배열을 사용하여 한 번만 실행되도록
+  }, []);
+
   return (
     <div>
       <table className="w-full border-collapse table-auto">

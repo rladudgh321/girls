@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getUserIdAPI } from "../../api/user";
 import PostRow from "./PostRow";
 import Pagination from "./Pagination";
 
-export default function PostTable({
+const PostTable = ({
   initialPosts,
   postsPerPage,
   currentPage,
@@ -18,13 +18,14 @@ export default function PostTable({
   currentPage: number;
   totalPages: number;
   tag: string;
-}) {
+}) => {
+  console.log('Home > PostList > PostTabl, useRouter useState useEffect')
   const router = useRouter();
   const [isUser, setUser] = useState<{ id: string; role: 'ADMIN' | 'USER' }>({id: '', role:'USER'});
 
-  const handleTagClick = (tag: string) => {
+  const handleTagClick = useCallback((tag: string) => {
     router.push(`?tag=${tag}&page=1`, { scroll: false });
-  };
+  }, [router]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +45,6 @@ export default function PostTable({
         }
       }
     };
-
     fetchData();
   }, []); // 의존성 배열에 빈 배열을 사용하여 한 번만 실행되도록
   return (
@@ -83,3 +83,5 @@ export default function PostTable({
     </div>
   );
 }
+
+export default memo(PostTable);

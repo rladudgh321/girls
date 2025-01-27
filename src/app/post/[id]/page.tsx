@@ -64,14 +64,14 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
         title: post.title,
         description: post.content3,
         url: `https://127.0.0.1:3000/post/${post.id}`,
-        images: post.images3[0].src || [],
+        images: post.images3[0]?.src || [],
 
       },
       twitter: {
         card: 'summary_large_image',
         title: post.title,
         description: post.content3,
-        images: post.images3[0].src || [],
+        images: post.images3[0]?.src || [],
       },
     };
   } catch (err){

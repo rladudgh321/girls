@@ -13,6 +13,8 @@ const Pagination = ({
   postsPerPage: number;
   tag: string;
 }) => {
+  console.log('Home > PostList > PostTabl > Pagination, useRouter useState useEffect')
+
   const router = useRouter();
   
   // 화면 크기에 따라 페이지 번호 범위를 조정하기 위한 상태

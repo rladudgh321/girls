@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { StringToArrayPropsWithoutImages } from "../../types";
 import TagButton from "./TagButton";
-import { useCallback, useRef } from "react";
+import { memo, useCallback, useRef } from "react";
 import { deletePostAPI } from "../../api/post";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { clsx } from 'clsx';
@@ -30,6 +30,7 @@ const PostRow = ({
   handleTagClick: (tag: string) => void;
   isUser: User | null; // isUser가 null일 수 있음
 }) => {
+  console.log('Home > PostList > PostTabl > PostRow')
   const queryClient = useQueryClient();
   const onRef = useRef<HTMLAnchorElement>(null);
   const mutationDeletePost = useMutation({
@@ -78,10 +79,10 @@ const PostRow = ({
   const { role } = isUser || {}; // isUser에서 role을 구조 분해
   const isAdmin = role === 'ADMIN'; // 'ADMIN' 역할 확인
 
-  const handleLink = () => {
+  const handleLink = useCallback(() => {
     onRef.current?.classList.remove('text-blue-600')
     onRef.current?.classList.add('text-red-500');
-  }
+  }, []);
   return (
     <tr key={post.id} className="border-b hover:bg-gray-50">
       <td className="py-2 px-4">
@@ -117,4 +118,4 @@ const PostRow = ({
   );
 };
 
-export default PostRow;
+export default memo(PostRow);

@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 const Pagination = ({
   currentPage,
   totalPages,
-  postsPerPage,
-  tag,
+  // postsPerPage,
+  // tag,
 }: {
   currentPage: number;
   totalPages: number;

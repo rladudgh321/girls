@@ -11,7 +11,7 @@ const PostList = () => {
     setUrl(window.location.search);
   },[])
   
-  const searchParams = new URLSearchParams(url);
+  const searchParams = useMemo(() => new URLSearchParams(url),[url]);
 
   // URLSearchParams에서 값 추출
   const currentPage = useMemo(() => {

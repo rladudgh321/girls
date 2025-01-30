@@ -60,14 +60,13 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
     // const originUrl = process.env.NODE_ENV === 'production'
     //   ? process.env.CLIENT_URL
     //   : 'http://127.0.0.1:3000'
-    
     return {
       title: post.title,
       description: post.content3,
       openGraph: {
         title: post.title,
         description: post.content3,
-        url: `/post/${post.id}`,
+        url: post.images3[0].src,
         images: post.images3[0]?.src || [],
 
       },

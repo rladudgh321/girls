@@ -17,7 +17,7 @@ export default function Login() {
     mutationFn: logInAPI,
     onSuccess: (data) => {
       // 예: 로그인 성공 시 accessToken을 localStorage나 상태 관리 라이브러리에 저장
-      localStorage.setItem('authorization', data.accessToken);
+      localStorage.setItem('authorization', data?.accessToken);
     },
     onError: (error) => {
       console.error('Login failed:', error); // 로그인 실패 시 처리

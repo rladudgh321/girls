@@ -6,6 +6,7 @@ import PostList from "../../components/PostList";
 import { getPostsAllAPI } from "../../api/post";
 import { generateMetadataPostType, StringToArrayProps } from "../../types";
 
+export const revalidate = 60;
 
 export interface PostListProps {
   searchParams?: { postsPerPage?: string; page?: string; tag?: string; };

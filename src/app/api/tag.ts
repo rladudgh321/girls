@@ -1,13 +1,7 @@
 // api/tag.ts
 import axios from 'axios';
 import { backUrl } from '../config'; // http://localhost:3065
-import https from 'https';
 axios.defaults.baseURL = backUrl;
-
-// SSL 인증서 검증 비활성화 설정
-axios.defaults.httpsAgent = new https.Agent({
-  rejectUnauthorized: false  // 인증서 검증을 비활성화
-});
 
 const API_URL = '/tag'; // 백엔드 API URL
 

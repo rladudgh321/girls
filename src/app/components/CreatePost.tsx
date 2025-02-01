@@ -7,6 +7,8 @@ import { createPostAPI, uploadImageAPI } from "../api/post";
 import { getTags } from "../api/tag";
 import { tagObject } from "../types";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+
 const CreatePost = () => {
   const router = useRouter();
   const { control, handleSubmit, setValue, formState: { errors } } = useForm({
@@ -187,8 +189,19 @@ const CreatePost = () => {
               className="mt-1 p-2 w-full border border-gray-300 rounded-md"
             />
             <div className="mt-4">
-              {imagePreview1.map((src, index) => (
+              {/* {imagePreview1.map((src, index) => (
                 <img key={index} src={src.src} alt={`preview-${index}`} className="w-32 h-32 object-cover rounded-md" />
+              ))} */}
+              {imagePreview1.map((src, index) => (
+                <div key={index} className="w-32 h-32">
+                  <Image
+                    src={src.src} // 이미지의 경로
+                    alt={`preview-${src.src}`}
+                    width={128} // 너비 설정
+                    height={128} // 높이 설정
+                    className="object-cover rounded-md"
+                  />
+                </div>
               ))}
             </div>
           </div>
@@ -228,8 +241,19 @@ const CreatePost = () => {
               className="mt-1 p-2 w-full border border-gray-300 rounded-md"
             />
             <div className="mt-4">
-              {imagePreview2.map((src, index) => (
+              {/* {imagePreview2.map((src, index) => (
                 <img key={index} src={src.src} alt={`preview-${index}`} className="w-32 h-32 object-cover rounded-md" />
+              ))} */}
+              {imagePreview2.map((src, index) => (
+                <div key={index} className="w-32 h-32">
+                  <Image
+                    src={src.src} // 이미지의 경로
+                    alt={`preview-${src.src}`}
+                    width={128} // 너비 설정
+                    height={128} // 높이 설정
+                    className="object-cover rounded-md"
+                  />
+                </div>
               ))}
             </div>
           </div>
@@ -270,8 +294,19 @@ const CreatePost = () => {
               className="mt-1 p-2 w-full border border-gray-300 rounded-md"
             />
             <div className="mt-4">
-              {imagePreview3.map((src, index) => (
+              {/* {imagePreview3.map((src, index) => (
                 <img key={index} src={src.src} alt={`preview-${index}`} className="w-32 h-32 object-cover rounded-md" />
+              ))} */}
+              {imagePreview3.map((src, index) => (
+                <div key={index} className="w-32 h-32">
+                  <Image
+                    src={src.src} // 이미지의 경로
+                    alt={`preview-${src.src}`}
+                    width={128} // 너비 설정
+                    height={128} // 높이 설정
+                    className="object-cover rounded-md"
+                  />
+                </div>
               ))}
             </div>
           </div>

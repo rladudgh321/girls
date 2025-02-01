@@ -1,4 +1,5 @@
 import { StringToArrayProps, tagObject } from "../types";
+import Image from "next/image";
 
 // 클라이언트 컴포넌트로 정의
 interface PostContentProps {
@@ -31,10 +32,10 @@ export default function PostContent({ post }: PostContentProps) {
             : `http://127.0.0.1:3065/uploads/${image}` // 이미지 URL을 변환
             return (
               <div key={i} className="bg-gray-200 rounded-lg shadow-md mb-6">
-                <img
-                  referrerPolicy="no-referrer"
+                <Image
+                  referrerPolicy="no-referrer"  
                   className="w-full"
-                  src={imageUrl}  // 변환된 이미지 URL
+                  src={imageUrl}
                   alt={`${image}${i}`}
                 />
               </div>
@@ -56,10 +57,10 @@ export default function PostContent({ post }: PostContentProps) {
             : `http://127.0.0.1:3065/uploads/${image}` // 이미지 URL을 변환
             return (
               <div key={i} className="bg-gray-200 rounded-lg shadow-md mb-6">
-                <img
-                  referrerPolicy="no-referrer"
+                <Image
+                  referrerPolicy="no-referrer"  
                   className="w-full"
-                  src={imageUrl}  // 변환된 이미지 URL
+                  src={imageUrl}
                   alt={`${image}${i}`}
                 />
               </div>
@@ -80,10 +81,10 @@ export default function PostContent({ post }: PostContentProps) {
             : `http://127.0.0.1:3065/uploads/${image}` // 이미지 URL을 변환
             return (
               <div key={i} className="bg-gray-200 rounded-lg shadow-md mb-6">
-                <img
-                  referrerPolicy="no-referrer"
+                <Image
+                  referrerPolicy="no-referrer"  
                   className="w-full"
-                  src={imageUrl}  // 변환된 이미지 URL
+                  src={imageUrl}
                   alt={`${image}${i}`}
                 />
               </div>
